@@ -6,8 +6,8 @@ global main
 
 
 section .rodata
-    str_watermark:  db "            -QR Code program by Sinisig-", 0x0A
-                    db "https://www.youtube.com/channel/UCOjkhDVZufeodKWlxJd6xrQ", 0x0A
+    str_watermark:  db "        -QR Code demo by Sinisig-", 0x0A
+                    db "https://www.github.com/Sinisig/qr_code_demo", 0x0A
                     db 0x0A, 0x00
     
     msg1: db "The body is located at x=1925, y=54, z=-92...", 0x0A, 0x00
