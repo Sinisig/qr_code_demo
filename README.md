@@ -1,2 +1,3 @@
-# qr_code_demo
+# QR Code Demo
  A demo program inside a QR code
+
