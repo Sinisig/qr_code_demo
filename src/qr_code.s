@@ -47,6 +47,10 @@ ProgramHeader_Size equ $-ProgramHeader
 
 align 16, nop
 _entry:
+    ; Startup credits/watermark
+    mov edi, str_credits
+    call print_str
+    
     ; Call main with argc and argv
     mov edi, [esp + 0x00]   ; argc
     mov esi, [esp + 0x04]   ; argv
@@ -65,10 +69,6 @@ main:
     push ebp
     mov ebp, esp
     
-    ; Watermark for the binary
-    mov edi, str_watermark
-    call print_str
-    
     ; Loop through the string table and print each entry
     xor ecx, ecx
     mov cl, 6
@@ -81,6 +81,7 @@ main:
         
         loop .print_loop
     
+    xor eax, eax
     leave
     ret
 
@@ -110,7 +111,7 @@ print_str:
 
        ;=====- START OF DATA -=====;
 
-str_watermark:  db "        -QR Code demo by Sinisig-", 0x0A
+str_credits:    db "        -QR Code demo by Sinisig-", 0x0A
                 db "https://www.github.com/Sinisig/qr_code_demo", 0x0A
                 db 0x0A, 0x00
 
