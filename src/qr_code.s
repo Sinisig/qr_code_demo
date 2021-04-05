@@ -1,9 +1,13 @@
 bits 32
-org 0x08048000
+default rel
+
+FuncAlignBoundary equ 16
+
 
      ;=====- START OF ELF HEADER -=====;
 
 ; Special thanks to http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
+org 0x08048000
 ElfHeader:
     db  0x7F, "ELF", 1, 1, 1, 0 ; e_ident
     db  0, 0, 0, 0, 0, 0, 0, 0  ; (unusued/reserved)
@@ -45,7 +49,7 @@ ProgramHeader_Size equ $-ProgramHeader
 
        ;=====- START OF CODE -=====;
 
-align 16, nop
+align FuncAlignBoundary,nop
 _entry:
     ; Startup credits/watermark
     mov edi, str_credits
@@ -64,7 +68,7 @@ _entry:
 ;===========================;
 ;=====- START OF MAIN -=====;
 ;===========================;
-align 16, nop
+align FuncAlignBoundary,nop
 main:
     push ebp
     mov ebp, esp
@@ -85,11 +89,10 @@ main:
     leave
     ret
 
-align 16, nop
+align FuncAlignBoundary,nop
 print_str:
     ; Get the string length(Find null terminator)
     xor edx, edx
-    dec edx
     .loop:
         inc edx
         mov al, [edi + edx]
@@ -98,9 +101,8 @@ print_str:
     
     ; System call to print the string
     mov al, 4       ; syscall ID (write)
-    xor bl, bl      ; output file ID (stdout)
+    mov bl, 1       ; output file ID (stdout)
     mov ecx, edi    ; buffer (input string)
-    inc bl
     int 0x80        ; perform syscall (syscall instruction doesn't work)
     
     ret
