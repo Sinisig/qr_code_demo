@@ -24,8 +24,6 @@ zbarcam --raw | uudecode -o X && chmod +x X && ./X && rm X
 ```
 
 ### Build requirements
- - GNU Binary Utilities
- - make
  - NASM
  - qrencode
 
