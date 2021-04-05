@@ -25,5 +25,6 @@ zbarcam --raw | uudecode -o X && chmod +x X && ./X && rm X
 
 ### Build requirements
  - NASM
+ - sharutils
  - qrencode
 
