@@ -20,8 +20,8 @@ segment flat
 
 bFuncAlignBoundary equ 1
 
-gWindowSizeX            equ 60
-gWindowSizeY            equ 15
+gWindowSizeX            equ 43
+gWindowSizeY            equ 12
 gWindowBackgroundChar   equ '.'
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1 ; This takes into account the line breaks and null terminator
