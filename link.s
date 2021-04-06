@@ -23,6 +23,7 @@ WindowSizeY equ 2
 WindowArea  equ WindowSizeX * WindowSizeY
 WindowMemSz equ WindowArea + WindowSizeY + 1 ; This takes into account the line breaks and null terminator
 
+
      ;=====- START OF HEADER -=====;
 
 ; Special thanks to http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
@@ -34,13 +35,13 @@ org 0x08048000
 
 
 
-      ;=====- START OF CODE/DATA -=====;
+    ;=====- START OF CODE/DATA -=====;
 
 %include "init.s"
 %include "main.s"
 %include "print.s"
 
-       ;=====- END OF CODE/DATA -=====;
+     ;=====- END OF CODE/DATA -=====;
 
 
 
