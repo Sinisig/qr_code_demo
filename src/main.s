@@ -13,6 +13,9 @@ main:
     mov edi, str_credits
     call print_str
     
+    ; Test code for drawing a graph to the screen
+    call draw_screen_graph
+    
     xor eax, eax
     leave
     ret

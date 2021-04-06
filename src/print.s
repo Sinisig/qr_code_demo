@@ -23,45 +23,47 @@ print_str:
     pop ebx
     ret
 
-; This is horribly broken atm, debugging is impossible right now because DDD/GDB refuse to work
 ; void draw_screen_graph(void)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
     mov ebp, esp
-    push ebx
-    sub esp, gWindowMemSz
+    sub esp, gWindowMemSize
     
+              ;-----START OF INITIALIZATION-----;
+    
+    ; Clear registers and set with required values
+    xor edx, edx
+    xor eax, eax
+    xor ecx, ecx
     mov edi, esp
-    xor ebx, ebx
-    mov bl, gWindowSizeY
-    .init_loop:
-        ; Set up and perform the store
-        xor eax, eax
-        xor ecx, ecx
-        mov al, 'X'
+    mov dl, gWindowSizeY
+    mov al, gWindowBackgroundChar
+    .init_fill:
+        ; Set amount to fill and perform the copy
         mov cl, gWindowSizeX
         rep stosb
         
-        ; Line break
-        mov byte [edi + gWindowSizeX], 0x0A
-        
-        ; Update the offset
-        add edi, gWindowSizeX+1
+        ; Add a line break and increment stack offset (the rep stosb automatically moves us to the end of the row)
+        mov byte [edi], 0x0A
+        inc edi
         
         ; Loop
-        dec bl
-        test bl, bl
-        jnz .init_loop
+        dec dl
+        test dl, dl
+        jnz .init_fill
     
-    ; Null Terminator
-    mov byte [esp + gWindowMemSz-1], 0x00
+    ; Finish with a null terminator
+    mov byte [edi], 0x00
     
-    ; Print the string
+                ;-----END OF INITIALIZATION-----;
+    
+    
+    
+    ; Finally, print the calculated string to the console
     mov edi, esp
     call print_str
     
-    add esp, gWindowMemSz
-    pop ebx
+    add esp, gWindowMemSize
     leave
     ret
