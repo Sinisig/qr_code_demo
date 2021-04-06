@@ -1,7 +1,7 @@
 ; Entrypoint for the application in here
 
 
-align FuncAlignBoundary,nop
+align bFuncAlignBoundary,nop
 _entry:
     ; Call main with argc and argv
     mov edi, [esp + 0x00]   ; argc

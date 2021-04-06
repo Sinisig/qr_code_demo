@@ -11,38 +11,43 @@
 ; Holy fuck this has become complicated...           ;
 ;----------------------------------------------------;
 
+;=====- START OF ASSEMBLER DIRECTIVES -=====;
+
 CPU 386
 BITS 32
 default abs
 segment flat
 
-FuncAlignBoundary equ 1
+bFuncAlignBoundary equ 1
 
-WindowSizeX equ 3
-WindowSizeY equ 2
-WindowArea  equ WindowSizeX * WindowSizeY
-WindowMemSz equ WindowArea + WindowSizeY + 1 ; This takes into account the line breaks and null terminator
+gWindowSizeX equ 3
+gWindowSizeY equ 2
+gWindowArea  equ gWindowSizeX * gWindowSizeY
+gWindowMemSz equ gWindowArea + gWindowSizeY + 1 ; This takes into account the line breaks and null terminator
+
+ ;=====- END OF ASSEMBLER DIRECTIVES -=====;
 
 
-     ;=====- START OF HEADER -=====;
+
+      ;=====- START OF HEADER -=====;
 
 ; Special thanks to http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html
 org 0x08048000
 %include "elfheader.s"
 %include "prgheader.s"
 
-      ;=====- END OF HEADER -=====;
+       ;=====- END OF HEADER -=====;
 
 
 
-    ;=====- START OF CODE/DATA -=====;
+     ;=====- START OF CODE/DATA -=====;
 
 %include "init.s"
 %include "main.s"
 %include "print.s"
 
-     ;=====- END OF CODE/DATA -=====;
+      ;=====- END OF CODE/DATA -=====;
 
 
 
-FileLength equ $-$$
+bFileLength equ $-$$

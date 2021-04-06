@@ -3,7 +3,7 @@
 ;===========================;
 
 
-align FuncAlignBoundary,nop
+align bFuncAlignBoundary,nop
 main:
     push ebp
     mov ebp, esp

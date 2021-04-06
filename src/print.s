@@ -1,7 +1,7 @@
 ; This contains a bunch of utilities for printing/drawing
 
 
-align FuncAlignBoundary,nop
+align bFuncAlignBoundary,nop
 print_str:
     push ebx
     
@@ -23,29 +23,29 @@ print_str:
     ret
 
 ; This is horribly broken atm, debugging is impossible right now because DDD/GDB refuse to work
-align FuncAlignBoundary,nop
+align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
     mov ebp, esp
     push ebx
-    sub esp, WindowMemSz
+    sub esp, gWindowMemSz
     
     mov edi, esp
     xor ebx, ebx
-    mov bl, WindowSizeY
+    mov bl, gWindowSizeY
     .init_loop:
         ; Set up and perform the store
         xor eax, eax
         xor ecx, ecx
         mov al, 'X'
-        mov cl, WindowSizeX
+        mov cl, gWindowSizeX
         rep stosb
         
         ; Line break
-        mov byte [edi + WindowSizeX], 0x0A
+        mov byte [edi + gWindowSizeX], 0x0A
         
         ; Update the offset
-        add edi, WindowSizeX+1
+        add edi, gWindowSizeX+1
         
         ; Loop
         dec bl
@@ -53,13 +53,13 @@ draw_screen_graph:
         jnz .init_loop
     
     ; Null Terminator
-    mov byte [esp + WindowMemSz - 1], 0x00
+    mov byte [esp + gWindowMemSz-1], 0x00
     
     ; Print the string
     mov edi, esp
     call print_str
     
-    add esp, WindowMemSz
+    add esp, gWindowMemSz
     pop ebx
     leave
     ret
