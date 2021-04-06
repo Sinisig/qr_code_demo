@@ -4,8 +4,9 @@
 align bFuncAlignBoundary,nop
 _entry:
     ; Call main with argc and argv
-    mov edi, [esp + 0x00]   ; argc
-    mov esi, [esp + 0x04]   ; argv
+    mov esi, esp
+    mov edi, [esp]          ; argc
+    add esi, 4              ; argv
     call main
     
     ; Return to OS with the value returned from main
