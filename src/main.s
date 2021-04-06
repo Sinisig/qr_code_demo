@@ -3,6 +3,7 @@
 ;===========================;
 
 
+; int main(int argc, char** argv)
 align bFuncAlignBoundary,nop
 main:
     push ebp

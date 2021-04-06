@@ -1,6 +1,7 @@
 ; This contains a bunch of utilities for printing/drawing
 
 
+; void print_str(const char* str)
 align bFuncAlignBoundary,nop
 print_str:
     push ebx
@@ -23,6 +24,7 @@ print_str:
     ret
 
 ; This is horribly broken atm, debugging is impossible right now because DDD/GDB refuse to work
+; void draw_screen_graph(void)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
