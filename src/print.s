@@ -30,7 +30,7 @@ draw_screen_graph:
     mov ebp, esp
     sub esp, gWindowMemSize
     
-              ;-----START OF INITIALIZATION-----;
+    ;-----INITIALIZATION-----;
     
     ; Clear registers and set with required values
     xor edx, edx
@@ -56,9 +56,13 @@ draw_screen_graph:
     ; Finish with a null terminator
     mov byte [edi], 0x00
     
-                ;-----END OF INITIALIZATION-----;
+    
+    ;-----PLOTTING-----;
+    
+    ; Todo - Write the graph function (i.e. f(x) = sinx) and use the output to plot points to the screen
     
     
+    ;-----PRINTING-----;
     
     ; Finally, print the calculated string to the console
     mov edi, esp
