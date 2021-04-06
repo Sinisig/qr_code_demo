@@ -23,7 +23,7 @@ print_str:
     pop ebx
     ret
 
-; void draw_screen_graph(void)
+; void draw_screen_graph(int x)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
@@ -31,6 +31,8 @@ draw_screen_graph:
     sub esp, gWindowMemSize
     
     ;-----INITIALIZATION-----;
+    
+    mov edi, esi ; Save the x value
     
     ; Clear registers and set with required values
     xor edx, edx

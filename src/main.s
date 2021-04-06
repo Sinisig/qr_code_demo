@@ -14,6 +14,7 @@ main:
     call print_str
     
     ; Test code for drawing a graph to the screen
+    xor edi, edi
     call draw_screen_graph
     
     xor eax, eax
