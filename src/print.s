@@ -23,6 +23,7 @@ print_str:
     pop ebx
     ret
 
+; This prints a graph to the console, the input x is used at the x value for the center of the graph
 ; void draw_screen_graph(int x)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
@@ -32,7 +33,7 @@ draw_screen_graph:
     
     ;-----INITIALIZATION-----;
     
-    mov edi, esi ; Save the x value
+    mov edi, esi ; Save the anchor x value
     
     ; Clear registers and set with required values
     xor edx, edx
@@ -70,6 +71,7 @@ draw_screen_graph:
     mov edi, esp
     call print_str
     
+    ; Clean up and return
     add esp, gWindowMemSize
     leave
     ret
