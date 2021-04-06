@@ -1,8 +1,10 @@
-output.png : bin/qr_binary
-	uuencode bin/qr_binary bin/qr_binary | qrencode -o output.png -s 7 -8 --verbose
+bin/qr_binary.png : temp_bin
+	uuencode bin/qr_binary bin/qr_binary | qrencode -o bin/qr_binary.png -t PNG -s 7 -8 --verbose
+	rm temp_bin
 
-bin/qr_binary : src/qr_code.s
-	nasm src/qr_code.s -o bin/qr_binary -f bin
+temp_bin : qr_binary.s
+	nasm qr_binary.s -o bin/qr_binary -f bin -I src/
 	chmod +x bin/qr_binary
 	wc -c bin/qr_binary
+	cp bin/qr_binary temp_bin
 
