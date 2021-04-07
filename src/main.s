@@ -21,7 +21,7 @@ main:
     leave
     ret
 
-str_credits:    db 0x09
-                db "-QR Code demo by Sinisig-", 0x0A
-                db "https://www.github.com/Sinisig/qr_code_demo", 0x0A
-                db 0x0A, 0x0A, 0x00
+str_credits:    db sTab, "-QR Code demo by Sinisig-", sNewline
+                db "https://www.github.com/Sinisig/qr_code_demo", sNewline
+                db sNewline, sNewline
+                db sNull

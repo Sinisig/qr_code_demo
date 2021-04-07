@@ -48,7 +48,7 @@ draw_screen_graph:
         rep stosb
         
         ; Add a line break and increment stack offset (the rep stosb automatically moves us to the end of the row)
-        mov byte [edi], 0x0A
+        mov byte [edi], sNewline
         inc edi
         
         ; Loop
@@ -57,7 +57,7 @@ draw_screen_graph:
         jnz .init_loop
     
     ; Finish with a null terminator
-    mov byte [edi], 0x00
+    mov byte [edi], sNull
     
     
     ;-----PLOTTING-----;

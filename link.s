@@ -18,7 +18,13 @@ BITS 32
 default abs
 segment flat
 
+; In case functions need to aligned on a certain boundary, change this
 bFuncAlignBoundary equ 1
+
+; Special characters for use in strings
+sNull       equ 0x00
+sNewline    equ 0x0A
+sTab        equ 0x09
 
 ; Modify these if you want to edit the appearance of the window
 gWindowSizeX            equ 43  ; The amount of horizontal characters
