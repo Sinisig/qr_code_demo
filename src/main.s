@@ -14,7 +14,7 @@ main:
     call print_str
     
     ; TEST CODE
-    xor edi, edi
+    pxor xmm0, xmm0
     call draw_screen_graph
     
     xor eax, eax

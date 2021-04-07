@@ -13,7 +13,6 @@
 
 ;=====- START OF ASSEMBLER DIRECTIVES -=====;
 
-CPU 386
 BITS 32
 default abs
 segment flat
@@ -27,12 +26,12 @@ cNewline    equ 0x0A
 cTab        equ 0x09
 
 ; Modify these if you want to edit the appearance of the window
-gWindowSizeX            equ 43  ; The amount of horizontal characters
-gWindowSizeY            equ 12  ; The amount of vertical characters
-gWindowBackgroundChar   equ '.' ; The character used for empty space
-gWindowForegroundChar   equ '#' ; The character used for plotted dots
-gWindowRangeX           equ 12  ; The amount of values to calculate for
-gWindowRangeY           equ 4   ; The vertical range to display
+gWindowSizeX            equ 43      ; The amount of horizontal characters
+gWindowSizeY            equ 12      ; The amount of vertical characters
+gWindowBackgroundChar   equ '.'     ; The character used for empty space
+gWindowForegroundChar   equ '#'     ; The character used for plotted dots
+gWindowRangeX           equ 12      ; The amount of values to calculate for
+gWindowRangeY           equ 4       ; The vertical range to display
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator

@@ -28,7 +28,7 @@ print_str:
     ret
 
 ; This prints a graph to the console, the input x is used at the x value for the center of the graph
-; void draw_screen_graph(int x)
+; void draw_screen_graph(float x)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
@@ -36,8 +36,6 @@ draw_screen_graph:
     sub esp, gWindowMemSize
     
     ;-----INITIALIZATION-----;
-    
-    mov edi, esi ; Save the anchor x value
     
     ; Clear registers and set with required values
     xor edx, edx
