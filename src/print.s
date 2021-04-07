@@ -6,17 +6,21 @@ align bFuncAlignBoundary,nop
 print_str:
     push ebx
     
+    ; zero out registers here to maximize throughput
+    xor edx, edx ; Used in the null terminator finding loop
+    xor eax, eax ; Used in syscall
+    xor ebx, ebx ; Used in syscall
+    
     ; Get the string length(Find null terminator)
-    xor edx, edx
-    .loop:
+    .find_null_term:
         inc edx
         mov al, [edi + edx]
         test al, al
-        jnz .loop
+        jnz .find_null_term
     
     ; System call to print the string
     mov al, 4       ; syscall ID (write)
-    mov bl, 1       ; output file ID (stdout)
+    inc bl          ; output file ID (stdout)
     mov ecx, edi    ; buffer (input string)
     int 0x80        ; perform syscall (syscall instruction doesn't work)
     

@@ -11,5 +11,6 @@ _entry:
     
     ; Return to OS with the value returned from main
     mov ebx, eax
-    mov al, 1
+    xor eax, eax
+    inc al
     int 0x80
