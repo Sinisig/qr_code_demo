@@ -9,11 +9,11 @@ main:
     push ebp
     mov ebp, esp
     
-    ; Startup credits/watermark
+    ; Credits/Watermark and Screen Clearer
     mov edi, str_credits
     call print_str
     
-    ; Test code for drawing a graph to the screen
+    ; TEST CODE
     xor edi, edi
     call draw_screen_graph
     

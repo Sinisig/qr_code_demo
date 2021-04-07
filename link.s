@@ -20,11 +20,18 @@ segment flat
 
 bFuncAlignBoundary equ 1
 
-gWindowSizeX            equ 43
-gWindowSizeY            equ 12
-gWindowBackgroundChar   equ '.'
+; Modify these if you want to edit the appearance of the window
+gWindowSizeX            equ 43  ; The amount of horizontal characters
+gWindowSizeY            equ 12  ; The amount of vertical characters
+gWindowBackgroundChar   equ '.' ; The character used for empty space
+gWindowForegroundChar   equ '#' ; The character used for plotted dots
+gWindowRangeX           equ 12  ; The amount of values to calculate for
+gWindowRangeY           equ 4   ; The vertical range to display
+
 gWindowArea             equ gWindowSizeX * gWindowSizeY
-gWindowMemSize          equ gWindowArea + gWindowSizeY + 1 ; This takes into account the line breaks and null terminator
+gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
+gWindowRatioX           equ gWindowSizeX / gWindowRangeX
+gWindowRatioY           equ gWindowSizeY / gWindowRangeY
 
  ;=====- END OF ASSEMBLER DIRECTIVES -=====;
 

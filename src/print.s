@@ -42,7 +42,7 @@ draw_screen_graph:
     mov edi, esp
     mov dl, gWindowSizeY
     mov al, gWindowBackgroundChar
-    .init_fill:
+    .init_loop:
         ; Set amount to fill and perform the copy
         mov cl, gWindowSizeX
         rep stosb
@@ -54,7 +54,7 @@ draw_screen_graph:
         ; Loop
         dec dl
         test dl, dl
-        jnz .init_fill
+        jnz .init_loop
     
     ; Finish with a null terminator
     mov byte [edi], 0x00
@@ -62,8 +62,12 @@ draw_screen_graph:
     
     ;-----PLOTTING-----;
     
-    ; Todo - Write the graph function (i.e. f(x) = sinx) and use the output to plot points to the screen
-    
+    xor ecx, ecx
+    mov cl, gWindowSizeX
+    .plot_loop:
+        ; Todo: Plotting code
+        
+        loop .plot_loop
     
     ;-----PRINTING-----;
     
