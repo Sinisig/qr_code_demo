@@ -27,8 +27,9 @@ print_str:
     pop ebx
     ret
 
-; This prints a graph to the console, the input x is used at the x value for the center of the graph
-; void draw_screen_graph(float x)
+
+; This prints a graph to the console, the input x is used at the starting x value
+; void draw_screen_graph(int x)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
@@ -67,9 +68,35 @@ draw_screen_graph:
     xor ecx, ecx
     mov cl, gWindowSizeX
     .plot_loop:
-        ; Todo: Plotting code
+        ; Calculate the function and store the result(in terms of the screen resolution) in edx
+        ; This is a test function btw
+        lea edx, [ecx - gWindowSizeY*2]
         
+        ; Negate the Y value (so it's on the graph correctly) and add half the height to make it centered
+        xor eax, eax
+        dec eax
+        imul edx
+        add eax, gWindowSizeY / 2
+        
+        ; Calculate the offset into the table
+        ; index = ((gWindowSizeX + 1) * y) + x
+        xor edx, edx
+        mov dl, gWindowSizeX + 1
+        imul edx
+        add eax, ecx
+        
+        ; Make sure it's within bounds of the table ( Segmentation fault (core dumped) )
+        cmp eax, gWindowArea + gWindowSizeY
+        jg .skip_plot
+        cmp eax, 0
+        jl .skip_plot
+        
+        ; Perform the write
+        mov byte [esp + eax-1], gWindowForegroundChar
+        
+        .skip_plot:
         loop .plot_loop
+        
     
     ;-----PRINTING-----;
     
