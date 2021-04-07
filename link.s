@@ -22,9 +22,9 @@ segment flat
 bFuncAlignBoundary equ 1
 
 ; Special characters for use in strings
-sNull       equ 0x00
-sNewline    equ 0x0A
-sTab        equ 0x09
+cNull       equ 0x00
+cNewline    equ 0x0A
+cTab        equ 0x09
 
 ; Modify these if you want to edit the appearance of the window
 gWindowSizeX            equ 43  ; The amount of horizontal characters
@@ -55,11 +55,11 @@ bElfHeader:
     dw  3                       ; e_machine
     dd  1                       ; e_version
     dd  _entry                  ; e_entry
-    dd  bProgramHeader-$$        ; e_phoff
+    dd  bProgramHeader-$$       ; e_phoff
     dd  0                       ; e_shoff
     dd  0                       ; e_flags
-    dw  bElfHeader_Size          ; e_ehsize
-    dw  bProgramHeader_Size      ; e_phentsize
+    dw  bElfHeader_Size         ; e_ehsize
+    dw  bProgramHeader_Size     ; e_phentsize
     dw  1                       ; e_phnum
     dw  0                       ; e_shentsize
     dw  0                       ; e_shnum
@@ -71,8 +71,8 @@ bProgramHeader:
     dd  0                       ; p_offset
     dd  $$                      ; p_vaddr
     dd  $$                      ; p_paddr
-    dd  bFileLength              ; p_filesz
-    dd  bFileLength              ; p_memsz
+    dd  bFileLength             ; p_filesz
+    dd  bFileLength             ; p_memsz
     dd  5                       ; p_flags
     dd  0x1000                  ; p_align
 bProgramHeader_Size equ $-bProgramHeader
