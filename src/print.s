@@ -70,9 +70,10 @@ draw_screen_graph:
     mov cl, gWindowSizeX
     .plot_loop:
         ; Run the graphing function f(x)
-        ; f(x) = x^2
+        ; f(x) = x^2 - 3
         movss xmm1, xmm0
-        mulss xmm1, xmm1
+        mulss xmm1, xmm0
+        addss xmm1, [gFuncConst_NThree]
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
@@ -116,10 +117,10 @@ draw_screen_graph:
 ; Modify these if you want to edit the appearance of the window
 gWindowSizeX            equ 43          ; The amount of horizontal characters
 gWindowSizeY            equ 13          ; The amount of vertical characters
-gWindowBackgroundChar   equ '.'         ; The character used for empty space
+gWindowBackgroundChar   equ ' '         ; The character used for empty space
 gWindowForegroundChar   equ '#'         ; The character used for plotted dots
-gWindowRangeX           equ 12          ; The range of X values to calculate
-gWindowRangeY           equ 4           ; The range of Y values to display
+%define gWindowRangeX       12.0        ; The range of X values to calculate
+%define gWindowRangeY       4.0         ; The range of Y values to display
 %define gWindowTextRatio    (5.0/3.0)   ; The ratio of the text characters
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
@@ -129,3 +130,5 @@ align 4,nop
 gWindowCenter:          dd  0x40C00000 ; gWindowRangeX / 2
 gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
 gWindowRatioY:          dd  0xBFF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
+
+gFuncConst_NThree:      dd -3.0 ; For the test function
