@@ -26,5 +26,5 @@ str_credits:    db cTab, "-QR Code demo by Sinisig-"                ,cNewline
                 db cNewline, cNewline
                 db cNull
 
-align 16
+align 4
 TEMP_starting_value: dd 6.0

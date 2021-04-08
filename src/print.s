@@ -116,6 +116,7 @@ draw_screen_graph:
 
 ; Assembler directives, defines, and memory addresses down here
 ; Modify these if you want to edit the appearance of the window
+; TODO: Use NASM to calculate the ratios instead of manually calculating them
 gWindowSizeX            equ 43      ; The amount of horizontal characters
 gWindowSizeY            equ 13      ; The amount of vertical characters
 gWindowBackgroundChar   equ '.'     ; The character used for empty space
@@ -127,6 +128,6 @@ gWindowRangeY           equ 4       ; The range of Y values to display
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
 
-align 16
-    gScreenRatioX:  dd 0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
-    gScreenRatioY:  dd 0x3FF9999A ; (gWindowSizeY / gWindowRangeY) / (5 / 3)
+align 4,nop
+gScreenRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
+gScreenRatioY:          dd  0x3FF9999A ; (gWindowSizeY / gWindowRangeY) / (5 / 3)
