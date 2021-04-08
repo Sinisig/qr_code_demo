@@ -72,7 +72,7 @@ draw_screen_graph:
         movss xmm1, xmm0
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
-        mulss xmm1, [gScreenRatioY]
+        mulss xmm1, [gWindowRatioY]
         cvtss2si edx, xmm1
         
         ; Negate the Y value (so it's on the graph correctly) and add half the height to make it centered
@@ -99,7 +99,7 @@ draw_screen_graph:
         
         .skip_plot:
         ; Loop
-        addss xmm0, [gScreenRatioX]
+        addss xmm0, [gWindowRatioX]
         loop .plot_loop
         
     
@@ -117,17 +117,16 @@ draw_screen_graph:
 ; Assembler directives, defines, and memory addresses down here
 ; Modify these if you want to edit the appearance of the window
 ; TODO: Use NASM to calculate the ratios instead of manually calculating them
-gWindowSizeX            equ 43      ; The amount of horizontal characters
-gWindowSizeY            equ 13      ; The amount of vertical characters
-gWindowBackgroundChar   equ '.'     ; The character used for empty space
-gWindowForegroundChar   equ '#'     ; The character used for plotted dots
-gWindowRangeX           equ 12      ; The range of X values to calculate
-gWindowRangeY           equ 4       ; The range of Y values to display
-;gWindowScreenRatio     equ 5.0/3.0 ; The ratio of the text characters
+gWindowSizeX            equ 43          ; The amount of horizontal characters
+gWindowSizeY            equ 13          ; The amount of vertical characters
+gWindowBackgroundChar   equ '.'         ; The character used for empty space
+gWindowForegroundChar   equ '#'         ; The character used for plotted dots
+gWindowRangeX           equ 12          ; The range of X values to calculate
+gWindowRangeY           equ 4           ; The range of Y values to display
+%define gWindowTextRatio    (5.0/3.0)   ; The ratio of the text characters
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
-
 align 4,nop
-gScreenRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
-gScreenRatioY:          dd  0x3FF9999A ; (gWindowSizeY / gWindowRangeY) / (5 / 3)
+gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
+gWindowRatioY:          dd  0x3FF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio)
