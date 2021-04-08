@@ -29,7 +29,7 @@ print_str:
 
 
 ; This prints a graph to the console, the input x is used at the ending x value
-; void draw_screen_graph(int x, (float *func)(float x))
+; void draw_screen_graph(int a)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
@@ -70,8 +70,10 @@ draw_screen_graph:
     mov cl, gWindowSizeX
     .plot_loop:
         ; Run the graphing function f(x)
-        ; f(x) = x
+        ; f(x) = x^2 - 1
         movss xmm1, xmm0
+        mulss xmm1, xmm0
+        addss xmm1, [gFunctionConst_NOne]
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
@@ -117,14 +119,15 @@ gWindowSizeX            equ 43          ; The amount of horizontal characters
 gWindowSizeY            equ 13          ; The amount of vertical characters
 gWindowBackgroundChar   equ ' '         ; The character used for empty space
 gWindowForegroundChar   equ '#'         ; The character used for plotted dots
-%define gWindowRangeX       12.0        ; The range of X values to calculate
-%define gWindowRangeY       4.0         ; The range of Y values to display
+%define gWindowRangeX       7.0        ; The range of X values to calculate
+%define gWindowRangeY       2.0         ; The range of Y values to display
 %define gWindowTextRatio    (17.0/10.0)  ; The ratio of the text characters
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
 ; TODO: Use NASM to calculate these instead of calculating them manually
 align 4,nop
-gWindowCenter:          dd  0x40C00000 ; gWindowRangeX / 2
-gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
-gWindowRatioY:          dd  0xBFF4B4B5 ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
+gWindowCenter:          dd  0x40600000 ; gWindowRangeX / 2
+gWindowRatioX:          dd  0xBE26B29B ; gWindowRangeX / gWindowSizeX * -1
+gWindowRatioY:          dd  0xC074B4B5 ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
+gFunctionConst_NOne:    dd  0xBF800000 ; -1

@@ -11,7 +11,7 @@ main:
     
     ; Clear screen and print credits
     mov edi, str_credits
-    call print_str
+    call print_str  
     
     ; Test code for the graphing function
     pxor xmm0, xmm0
