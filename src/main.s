@@ -6,17 +6,18 @@
 ; int main(int argc, char** argv)
 align bFuncAlignBoundary,nop
 main:
-    push ebp
-    mov ebp, esp
+    push rbp
+    mov rbp, rsp
     
     ; Clear screen and print credits
-    mov edi, str_credits
-    call print_str  
+    mov rdi, str_credits
+    call print_str
     
     ; Test code for the graphing function
     pxor xmm0, xmm0
     call draw_screen_graph
     
+    xor rax, rax
     leave
     ret
 

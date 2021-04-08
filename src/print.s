@@ -4,27 +4,29 @@
 ; void print_str(const char* str)
 align bFuncAlignBoundary,nop
 print_str:
-    push ebx
+    push rbx
+    
+    ; Save input string, used in syscall
+    mov rsi, rdi
     
     ; zero out registers here to maximize throughput
-    xor edx, edx ; Used in the null terminator finding loop
-    xor eax, eax ; Used in syscall
-    xor ebx, ebx ; Used in syscall
+    xor rdx, rdx ; Used in the null terminator finding loop
+    xor rax, rax ; Used for syscall ID
+    xor rdi, rdi ; Used as sys_write file descriptor
     
     ; Get the string length(Find null terminator)
     .find_null_term:
-        inc edx
-        mov al, [edi + edx]
+        inc rdx
+        mov al, [rsi + rdx]
         test al, al
         jnz .find_null_term
     
     ; System call to print the string
-    mov al, 4       ; syscall ID (write)
-    inc bl          ; output file ID (stdout)
-    mov ecx, edi    ; buffer (input string)
-    int 0x80        ; perform syscall (syscall instruction doesn't work)
+    inc dil         ; output file ID (stdout)
+    mov al, 1       ; syscall ID (write)
+    syscall         ; perform syscall(duh)
     
-    pop ebx
+    pop rbx
     ret
 
 
@@ -32,17 +34,17 @@ print_str:
 ; void draw_screen_graph(int a)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
-    push ebp
-    mov ebp, esp
-    sub esp, gWindowMemSize
+    push rbp
+    mov rbp, rsp
+    sub rsp, gWindowMemSize
     
     ;-----INITIALIZATION-----;
     
     ; Clear registers and set with required values
-    xor edx, edx
-    xor eax, eax
-    xor ecx, ecx
-    mov edi, esp
+    xor rdx, rdx
+    xor rax, rax
+    xor rcx, rcx
+    mov rdi, rsp
     mov dl, gWindowSizeY
     mov al, gWindowBackgroundChar
     .init_loop:
@@ -51,8 +53,8 @@ draw_screen_graph:
         rep stosb
         
         ; Add a line break and increment stack offset (the rep stosb automatically moves us to the end of the row)
-        mov byte [edi], cNewline
-        inc edi
+        mov byte [rdi], cNewline
+        inc rdi
         
         ; Loop
         dec dl
@@ -60,13 +62,13 @@ draw_screen_graph:
         jnz .init_loop
     
     ; Finish with a null terminator
-    mov byte [edi], cNull
+    mov byte [rdi], cNull
     
     
     ;-----PLOTTING-----;
     
     addss xmm0, [gWindowCenter] ; Centers the graph properly
-    xor ecx, ecx
+    xor rcx, rcx
     mov cl, gWindowSizeX
     .plot_loop:
         ; Run the graphing function f(x)
@@ -77,24 +79,24 @@ draw_screen_graph:
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
-        cvtss2si eax, xmm1
-        add eax, gWindowSizeY / 2
+        cvtss2si rax, xmm1
+        add rax, gWindowSizeY / 2
         
         ; Calculate the offset into the table
         ; index = ((gWindowSizeX + 1) * y) + x
-        xor edx, edx
+        xor rdx, rdx
         mov dl, gWindowSizeX + 1
-        imul edx
-        add eax, ecx
+        imul rdx
+        add rax, rcx
         
         ; Make sure it's within bounds of the table ( Segmentation fault (core dumped) )
-        cmp eax, gWindowArea + gWindowSizeY
+        cmp rax, gWindowArea + gWindowSizeY
         jg .skip_plot
-        cmp eax, 0
+        cmp rax, 0
         jl .skip_plot
         
         ; Perform the write
-        mov byte [esp + eax-1], gWindowForegroundChar
+        mov byte [rsp + rax-1], gWindowForegroundChar
         
         .skip_plot:
         ; Loop
@@ -105,11 +107,11 @@ draw_screen_graph:
     ;-----PRINTING-----;
     
     ; Finally, print the calculated string to the console
-    mov edi, esp
+    mov rdi, rsp
     call print_str
     
     ; Clean up and return
-    add esp, gWindowMemSize
+    add rsp, gWindowMemSize
     leave
     ret
 
