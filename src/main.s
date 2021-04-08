@@ -14,7 +14,7 @@ main:
     call print_str
     
     ; TEST CODE
-    movss xmm0, [TEMP_starting_value]
+    pxor xmm0, xmm0
     call draw_screen_graph
     
     xor eax, eax
@@ -25,6 +25,3 @@ str_credits:    db cTab, "-QR Code demo by Sinisig-"                ,cNewline
                 db "https://www.github.com/Sinisig/qr_code_demo"    ,cNewline
                 db cNewline, cNewline
                 db cNull
-
-align 4
-TEMP_starting_value: dd 6.0

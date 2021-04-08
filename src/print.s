@@ -65,11 +65,14 @@ draw_screen_graph:
     
     ;-----PLOTTING-----;
     
+    addss xmm0, [gWindowCenter] ; Centers the graph properly
     xor ecx, ecx
     mov cl, gWindowSizeX
     .plot_loop:
-        ; Tets function, x in xmm0 and y in xmm1
+        ; Actual graph function f(x) here, input/x is xmm0, output/y/f(x) is xmm1
+        ; f(x) = x^2
         movss xmm1, xmm0
+        mulss xmm1, xmm0
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
@@ -116,7 +119,6 @@ draw_screen_graph:
 
 ; Assembler directives, defines, and memory addresses down here
 ; Modify these if you want to edit the appearance of the window
-; TODO: Use NASM to calculate the ratios instead of manually calculating them
 gWindowSizeX            equ 43          ; The amount of horizontal characters
 gWindowSizeY            equ 13          ; The amount of vertical characters
 gWindowBackgroundChar   equ '.'         ; The character used for empty space
@@ -128,5 +130,7 @@ gWindowRangeY           equ 4           ; The range of Y values to display
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
 align 4,nop
+; TODO: Use NASM to calculate these instead of calculating them manually
+gWindowCenter:          dd  0x40C00000 ; gWindowRangeX / 2
 gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
 gWindowRatioY:          dd  0x3FF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio)
