@@ -70,10 +70,8 @@ draw_screen_graph:
     mov cl, gWindowSizeX
     .plot_loop:
         ; Run the graphing function f(x)
-        ; f(x) = x^2 - 3
+        ; f(x) = x
         movss xmm1, xmm0
-        mulss xmm1, xmm0
-        addss xmm1, [gFuncConst_NThree]
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
@@ -121,7 +119,7 @@ gWindowBackgroundChar   equ ' '         ; The character used for empty space
 gWindowForegroundChar   equ '#'         ; The character used for plotted dots
 %define gWindowRangeX       12.0        ; The range of X values to calculate
 %define gWindowRangeY       4.0         ; The range of Y values to display
-%define gWindowTextRatio    (5.0/3.0)   ; The ratio of the text characters
+%define gWindowTextRatio    (17.0/10.0)  ; The ratio of the text characters
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
@@ -129,6 +127,4 @@ gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into ac
 align 4,nop
 gWindowCenter:          dd  0x40C00000 ; gWindowRangeX / 2
 gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
-gWindowRatioY:          dd  0xBFF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
-
-gFuncConst_NThree:      dd -3.0 ; For the test function
+gWindowRatioY:          dd  0xBFF4B4B5 ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
