@@ -25,17 +25,6 @@ cNull       equ 0x00
 cNewline    equ 0x0A
 cTab        equ 0x09
 
-; Modify these if you want to edit the appearance of the window
-gWindowSizeX            equ 43      ; The amount of horizontal characters
-gWindowSizeY            equ 13      ; The amount of vertical characters
-gWindowBackgroundChar   equ '.'     ; The character used for empty space
-gWindowForegroundChar   equ '#'     ; The character used for plotted dots
-gWindowRangeX           equ 12      ; The range of X values to calculate
-gWindowRangeY           equ 4       ; The range of Y values to display
-
-gWindowArea             equ gWindowSizeX * gWindowSizeY
-gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
-
  ;=====- END OF ASSEMBLER DIRECTIVES -=====;
 
 

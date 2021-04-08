@@ -28,7 +28,7 @@ print_str:
     ret
 
 
-; This prints a graph to the console, the input x is used at the starting x value
+; This prints a graph to the console, the input x is used at the ending x value
 ; void draw_screen_graph(int x)
 align bFuncAlignBoundary,nop
 draw_screen_graph:
@@ -68,9 +68,12 @@ draw_screen_graph:
     xor ecx, ecx
     mov cl, gWindowSizeX
     .plot_loop:
-        ; Calculate the function and store the result(in terms of the screen resolution) in edx
-        ; This is a test function btw
-        lea edx, [ecx - gWindowSizeY*2]
+        ; Tets function, x in xmm0 and y in xmm1
+        movss xmm1, xmm0
+        
+        ; Multiply by the vertical screen ratio and convert to an integer, store in edx
+        mulss xmm1, [gScreenRatioY]
+        cvtss2si edx, xmm1
         
         ; Negate the Y value (so it's on the graph correctly) and add half the height to make it centered
         xor eax, eax
@@ -95,6 +98,8 @@ draw_screen_graph:
         mov byte [esp + eax-1], gWindowForegroundChar
         
         .skip_plot:
+        ; Loop
+        addss xmm0, [gScreenRatioX]
         loop .plot_loop
         
     
@@ -108,3 +113,20 @@ draw_screen_graph:
     add esp, gWindowMemSize
     leave
     ret
+
+; Assembler directives, defines, and memory addresses down here
+; Modify these if you want to edit the appearance of the window
+gWindowSizeX            equ 43      ; The amount of horizontal characters
+gWindowSizeY            equ 13      ; The amount of vertical characters
+gWindowBackgroundChar   equ '.'     ; The character used for empty space
+gWindowForegroundChar   equ '#'     ; The character used for plotted dots
+gWindowRangeX           equ 12      ; The range of X values to calculate
+gWindowRangeY           equ 4       ; The range of Y values to display
+;gWindowScreenRatio     equ 5.0/3.0 ; The ratio of the text characters
+
+gWindowArea             equ gWindowSizeX * gWindowSizeY
+gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
+
+align 16
+    gScreenRatioX:  dd 0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
+    gScreenRatioY:  dd 0x3FF9999A ; (gWindowSizeY / gWindowRangeY) / (5 / 3)
