@@ -29,7 +29,7 @@ print_str:
 
 
 ; This prints a graph to the console, the input x is used at the ending x value
-; void draw_screen_graph(int x)
+; void draw_screen_graph(int x, (float *func)(float x))
 align bFuncAlignBoundary,nop
 draw_screen_graph:
     push ebp
@@ -69,19 +69,14 @@ draw_screen_graph:
     xor ecx, ecx
     mov cl, gWindowSizeX
     .plot_loop:
-        ; Actual graph function f(x) here, input/x is xmm0, output/y/f(x) is xmm1
+        ; Run the graphing function f(x)
         ; f(x) = x^2
         movss xmm1, xmm0
-        mulss xmm1, xmm0
+        mulss xmm1, xmm1
         
         ; Multiply by the vertical screen ratio and convert to an integer, store in edx
         mulss xmm1, [gWindowRatioY]
-        cvtss2si edx, xmm1
-        
-        ; Negate the Y value (so it's on the graph correctly) and add half the height to make it centered
-        xor eax, eax
-        dec eax
-        imul edx
+        cvtss2si eax, xmm1
         add eax, gWindowSizeY / 2
         
         ; Calculate the offset into the table
@@ -129,8 +124,8 @@ gWindowRangeY           equ 4           ; The range of Y values to display
 
 gWindowArea             equ gWindowSizeX * gWindowSizeY
 gWindowMemSize          equ gWindowArea + gWindowSizeY + 1  ; This takes into account the line breaks and null terminator
-align 4,nop
 ; TODO: Use NASM to calculate these instead of calculating them manually
+align 4,nop
 gWindowCenter:          dd  0x40C00000 ; gWindowRangeX / 2
 gWindowRatioX:          dd  0xBE8EE23C ; gWindowRangeX / gWindowSizeX * -1
-gWindowRatioY:          dd  0x3FF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio)
+gWindowRatioY:          dd  0xBFF9999A ; gWindowSizeY / (gWindowRangeY * gWindowTextRatio) * -1
