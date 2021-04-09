@@ -7,4 +7,3 @@ temp_bin : link.s
 	chmod +x bin/qr_binary
 	wc -c bin/qr_binary
 	cp bin/qr_binary temp_bin
-
