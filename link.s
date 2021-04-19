@@ -15,14 +15,14 @@
 
 BITS 64
 CPU X64
-default abs
+default rel
 segment flat
 
 ; In case functions need to be aligned on a certain boundary, change this
 bFuncAlignBoundary	equ 1
 
 ; Special characters for use in strings
-cNull				equ 0x00
+cNull			equ 0x00
 cNewline			equ 0x0A
 cTab				equ 0x09
 

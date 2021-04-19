@@ -9,7 +9,7 @@ _entry:
 	call main
 
 	; Return to OS with the value returned from main
-	mov rdi,rax
-	xor rax,rax
-	mov al,60
+	mov rdi, rax
+	xor rax, rax
+	mov al, 60
 	syscall

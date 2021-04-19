@@ -29,7 +29,6 @@ print_str:
 	pop rbx
 	ret
 
-
 ; This prints a graph to the console, the input is used as the starting x value
 ; void draw_screen_graph(float start_value)
 align bFuncAlignBoundary, nop

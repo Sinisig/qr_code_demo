@@ -22,7 +22,7 @@ main:
 	ret
 
 str_credits:	db 0x1B, 0x5B, 0x32, 0x4A
-				db cTab, "-QR Code demo by Sinisig-", 					cNewline
+				db cTab, "-QR Code demo by Sinisig-", 				cNewline
 				db "https://www.github.com/Sinisig/qr_code_demo", 	cNewline
 				db cNewline
 				db cNull
