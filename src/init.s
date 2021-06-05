@@ -1,15 +1,19 @@
-;Entrypoint for the application in here
+%include "qr_code.i"
+
+extern main
 
 
-align bFuncAlignBoundary, nop
+section .text
+
+global _entry
 _entry:
-	; Call main with argc and argv
-	mov rdi, [rsp]		; argc
-	lea rsi, [rsp + 8]	; argv
-	call main
+   ; Align the stack and call main with argc and argv
+   mov   rdi, [rsp]     ; argc
+   lea   rsi, [rsp + 8] ; argv
+   call  main
 
-	; Return to OS with the value returned from main
-	mov rdi, rax
-	xor rax, rax
-	mov al, 60
-	syscall
+   ; Return to OS with the value returned from main
+   mov   rdi, rax
+   xor   rax, rax
+   mov   al, 60
+   syscall

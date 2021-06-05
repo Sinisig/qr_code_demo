@@ -1,5 +1,5 @@
 # QR Code Demo
- A demo Linux x86-64 ELF binary inside a QR code
+ A tiny Linux x86-64 ELF binary inside a QR code
 
 
 
@@ -25,6 +25,7 @@ zbarcam --raw | uudecode -o qr && chmod +x qr && ./qr && rm qr
 
 ### Build requirements
  - NASM
+ - GNU Binary Utilities
  - sharutils
  - qrencode
 
